@@ -9,6 +9,7 @@ void main() {
   x = x.cropPiece(startNext: 1, endNext: 3, startdown: 1, endDown: 4);
   print(x.length);
   _print(x);
+  _print(15);
 }
 
 void _print(x) {
