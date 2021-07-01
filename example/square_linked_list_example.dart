@@ -1,7 +1,7 @@
 import 'package:square_linked_list/square_linked_list.dart';
 
 void main() {
-  var x = SquareNodeList<int>.arrange(4, 9,
+  var x = SquareLinkedList<int>.arrange(4, 9,
       arrangeFunction: (x, y) => x * y + x + y - y * y * y);
   _print(x);
   print(x.hasDuplicateInAnyLine());
