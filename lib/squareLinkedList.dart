@@ -1,10 +1,10 @@
 import 'squareNode.dart';
 
-class SquareNodeList<T> {
+class SquareLinkedList<T> {
   SquareNode<T>? start;
   int? length;
   int? height;
-  SquareNodeList({required this.start, this.length, this.height}) {
+  SquareLinkedList({required this.start, this.length, this.height}) {
     if (length == null) {
       var node = start!.next;
       length = 1;
@@ -23,7 +23,7 @@ class SquareNodeList<T> {
     }
   }
 
-  SquareNodeList.arrange(this.length, this.height,
+  SquareLinkedList.arrange(this.length, this.height,
       {T? initialValue,
       List<List<T>>? values,
       T Function(int, int)? arrangeFunction}) {
@@ -63,7 +63,7 @@ class SquareNodeList<T> {
     }
   }
 
-  SquareNodeList<T> cropPiece(
+  SquareLinkedList<T> cropPiece(
       {required int startNext,
       required int endNext,
       required int startdown,
@@ -90,7 +90,8 @@ class SquareNodeList<T> {
       next = copiedDown;
       copiedDown = copiedDown.down;
     }
-    return SquareNodeList(start: newStart, length: ++length, height: ++height);
+    return SquareLinkedList(
+        start: newStart, length: ++length, height: ++height);
   }
 
   //this function checks every heightxlength area whether any of the nodes has or not been checked.
