@@ -75,10 +75,22 @@ class SquareNodeList<T> {
     var newStart = start!.getNextAt(startNext).getDownAt(startdown);
     var length = endNext - startNext;
     var height = endDown - startdown;
-    return SquareNodeList(
-        start: newStart.copyUntil(height, length),
-        length: ++length,
-        height: ++height);
+    var next =
+        newStart.next != null ? newStart.next!.copyNextFor(length - 1) : null;
+    var down =
+        newStart.down != null ? newStart.down!.copyDownFor(height - 1) : null;
+    newStart.down = down;
+    newStart.next = next;
+    var copiedDown = down;
+    while (copiedDown != null) {
+      copiedDown = copiedDown.copyNextFor(height - 1);
+      for (var i = 0; i < length - 1; i++) {
+        next!.getNextAt(i).down = copiedDown.getNextAt(i);
+      }
+      next = copiedDown;
+      copiedDown = copiedDown.down;
+    }
+    return SquareNodeList(start: newStart, length: ++length, height: ++height);
   }
 
   List<SquareNode<T>> getEveryDuplicateLine() {
