@@ -34,7 +34,7 @@ class SquareNode<T> {
 
   SquareNode<T> getLastDown() {
     if (down == null) return this;
-    return down!.getLastNext();
+    return down!.getLastDown();
   }
 
   bool hasDuplicateInLine({List<T>? values, int count = -1}) {
@@ -82,7 +82,8 @@ class SquareNode<T> {
 
   SquareNode<T> copyNextFor(int count) {
     assert(count >= 0);
-    if (next == null) return SquareNode<T>(value: value, down: down);
+    if (next == null || count == 0)
+      return SquareNode<T>(value: value, down: down);
     return SquareNode<T>(
         value: value, next: next!.copyNextFor(--count), down: down);
   }

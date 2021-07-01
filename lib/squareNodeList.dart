@@ -93,6 +93,61 @@ class SquareNodeList<T> {
     return SquareNodeList(start: newStart, length: ++length, height: ++height);
   }
 
+  //this function checks every heightxlength area whether any of the nodes has or not been checked.
+  List<bool> checkEveryArea(int length, int height, bool Function(T) checker,
+      {void Function()? afterCheck}) {
+    assert(height <= this.height!);
+    assert(length <= this.length!);
+    List<bool> results = [];
+
+    for (var i = height; i <= this.height!; i++) {
+      var downNode = start!.getDownAt(i - height).copyDownFor(height);
+      for (var j = length; j <= this.length!; j++) {
+        var check = true;
+        SquareNode<T>? next =
+            downNode.getNextAt(j - length).copyNextFor(length);
+        while (next != null && check) {
+          var down = next.down;
+          while (down != null && check) {
+            check = checker(down.value);
+            down = down.down;
+          }
+          next = next.next;
+        }
+        results.add(check);
+      }
+    }
+    return results;
+  }
+
+  List<bool> checkAreas(int length, int height, bool Function(T) checker,
+      {void Function()? afterCheck}) {
+    assert(height <= this.height!);
+    assert(length <= this.length!);
+    assert(this.height! % height == 0);
+    assert(this.length! % length == 0);
+    List<bool> results = [];
+    for (var i = height; i <= this.height!; i += height) {
+      var downNode = start!.getDownAt(i - height).copyDownFor(height);
+      for (var j = length; j <= this.length!; j += length) {
+        var check = true;
+        SquareNode<T>? next =
+            downNode.getNextAt(j - length).copyNextFor(length);
+        while (next != null && check) {
+          var down = next.down;
+          while (down != null && check) {
+            check = checker(down.value);
+            down = down.down;
+          }
+          next = next.next;
+        }
+        results.add(check);
+        if (afterCheck != null) afterCheck();
+      }
+    }
+    return results;
+  }
+
   List<SquareNode<T>> getEveryDuplicateLine() {
     var nodes = <SquareNode<T>>[];
     for (var i = 0; i < height!; i++) {
