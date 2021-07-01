@@ -34,7 +34,7 @@ class SquareNode<T> {
 
   SquareNode<T> getLastDown() {
     if (down == null) return this;
-    return down!.getLastNext();
+    return down!.getLastDown();
   }
 
   bool hasDuplicateInLine({List<T>? values, int count = -1}) {
@@ -80,18 +80,19 @@ class SquareNode<T> {
     }
   }
 
-  SquareNode<T> copyUntil(int height, int length) {
-    if (height == 0 && length == 0) return SquareNode(value: value);
-    if (next == null || length == 0) {
-      return SquareNode(value: value, down: down!.copyUntil(--height, 0));
-    }
-    if (down == null || height == 0) {
-      return SquareNode(value: value, next: next!.copyUntil(0, --length));
-    } else {
-      return SquareNode(
-          value: value,
-          down: down!.copyUntil(--height, length),
-          next: next!.copyUntil(height, --length));
-    }
+  SquareNode<T> copyNextFor(int count) {
+    assert(count >= 0);
+    if (next == null || count == 0)
+      return SquareNode<T>(value: value, down: down);
+    return SquareNode<T>(
+        value: value, next: next!.copyNextFor(--count), down: down);
+  }
+
+  SquareNode<T> copyDownFor(int count) {
+    assert(count >= 0);
+    if (down == null || count == 0)
+      return SquareNode<T>(value: value, next: next);
+    return SquareNode(
+        value: value, down: down!.copyDownFor(--count), next: next);
   }
 }
